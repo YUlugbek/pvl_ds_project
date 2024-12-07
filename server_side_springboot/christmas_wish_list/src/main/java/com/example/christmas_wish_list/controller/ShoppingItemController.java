@@ -44,7 +44,7 @@ public class ShoppingItemController {
         @ApiResponse(responseCode = "400", description = "Invalid input provided")
     })
     @PostMapping
-    public ResponseEntity<ShoppingItem> addItem(@RequestBody(description = "Details of the item to add") ShoppingItem shoppingItem) {
+    public ResponseEntity<ShoppingItem> addItem(@RequestBody ShoppingItem shoppingItem) {
         shoppingItems.add(shoppingItem);
         return new ResponseEntity<>(shoppingItem, HttpStatus.CREATED);
     }
@@ -71,7 +71,7 @@ public class ShoppingItemController {
         @ApiResponse(responseCode = "404", description = "Item not found")
     })
     @PutMapping("/{shoppingItemName}")
-    public ResponseEntity<ShoppingItem> updateSingleItem(@PathVariable String shoppingItemName, @RequestBody(description = "Updated details of the item") ShoppingItem updatedItem) {
+    public ResponseEntity<ShoppingItem> updateSingleItem(@PathVariable String shoppingItemName, @RequestBody ShoppingItem updatedItem) {
         for (ShoppingItem item : shoppingItems) {
             if (item.getName().equalsIgnoreCase(shoppingItemName)) {
                 item.setAmount(updatedItem.getAmount());
