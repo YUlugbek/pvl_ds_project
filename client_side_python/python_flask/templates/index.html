@@ -3,28 +3,111 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shopping Items</title>
+    <title>Christmas Shopping List</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Font for Festive Look -->
+    <link href="https://fonts.googleapis.com/css2?family=Mountains+of+Christmas&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #fdfdfd;
+            background-image: url('https://www.transparenttextures.com/patterns/holiday.png');
+            color: #333;
+        }
+        .christmas-header {
+            font-family: 'Mountains of Christmas', cursive;
+            color: #b71c1c;
+        }
+        .christmas-card {
+            background: #f8f9fa;
+            border: 2px solid #b71c1c;
+            border-radius: 10px;
+            padding: 1rem;
+        }
+        .btn-add {
+            background-color: #28a745;
+            border: none;
+            font-weight: bold;
+            color: #fff;
+        }
+        .btn-add:hover {
+            background-color: #218838;
+            color: #fff;
+        }
+        .btn-update {
+            background-color: #ffc107;
+            border: none;
+            color: #333;
+        }
+        .btn-update:hover {
+            background-color: #e0a800;
+            color: #fff;
+        }
+        .btn-delete {
+            background-color: #dc3545;
+            border: none;
+            color: #fff;
+        }
+        .btn-delete:hover {
+            background-color: #c82333;
+            color: #fff;
+        }
+        .list-group-item {
+            background-color: #fff5f5;
+            border: 1px solid #d9534f;
+        }
+        .list-group-item strong {
+            color: #b71c1c;
+        }
+        .decorative-line {
+            border-top: 2px dashed #b71c1c;
+            margin: 20px 0;
+        }
+    </style>
 </head>
 <body>
-    <h1>Shopping Items</h1>
-    <a href="/add">Add Item</a>
-    <ul>
+
+<div class="container my-5">
+    <div class="text-center mb-4">
+        <h1 class="display-4 christmas-header">🎄 Christmas Shopping List 🎁</h1>
+        <p class="lead">Make your holidays merry and bright by keeping track of your festive purchases!</p>
+    </div>
+
+    <div class="d-flex justify-content-end mb-4">
+        <a href="/add" class="btn btn-add btn-lg">➕ Add New Item</a>
+    </div>
+
+    <ul class="list-group mb-4">
         {% for item in items %}
-        <li>
-            {{ item.name }} - {{ item.amount }}
-            <a href="/update/{{ item.name }}">Update</a>
-            <a href="/delete/{{ item.name }}">Delete</a>
+        <li class="list-group-item d-flex justify-content-between align-items-center christmas-card">
+            <div>
+                <strong>{{ item.name }}</strong> - <span class="badge bg-success">{{ item.amount }}</span>
+            </div>
+            <div>
+                <a href="/update/{{ item.name }}" class="btn btn-sm btn-update me-2">✏️ Update</a>
+                <a href="/delete/{{ item.name }}" class="btn btn-sm btn-delete">🗑️ Delete</a>
+            </div>
         </li>
         {% endfor %}
     </ul>
+
+    <div class="decorative-line"></div>
+
     {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
-    <ul>
+    <div class="alert-container">
         {% for category, message in messages %}
-        <li class="{{ category }}">{{ message }}</li>
+        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+            🎉 {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
         {% endfor %}
-    </ul>
+    </div>
     {% endif %}
     {% endwith %}
+</div>
+
+<!-- Bootstrap JS (for dismissible alerts) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
