@@ -1,9 +1,11 @@
 package com.example.christmas_wish_list.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -42,8 +44,15 @@ public class ShoppingItemController {
     })
     @PostMapping
     public ResponseEntity<ShoppingItem> addItem(@RequestBody ShoppingItem shoppingItem) {
-        ShoppingItem savedItem = shoppingItemRepository.save(shoppingItem);
-        return new ResponseEntity<>(savedItem, HttpStatus.CREATED);
+        ShoppingItem savedItem = shoppingItemRepository.findByName(shoppingItem.getName())
+            .map(existingItem -> {
+                existingItem.setAmount(shoppingItem.getAmount());
+                return shoppingItemRepository.save(existingItem);
+            })
+            .orElseGet(() -> shoppingItemRepository.save(shoppingItem));
+
+        HttpStatus status = savedItem.equals(shoppingItem) ? HttpStatus.CREATED : HttpStatus.OK;
+        return new ResponseEntity<>(savedItem, status);
     }
 
     // Read single item by name
@@ -86,7 +95,7 @@ public class ShoppingItemController {
     public ResponseEntity<Void> deleteSingleItem(@PathVariable String shoppingItemName) {
         shoppingItemRepository.findByName(shoppingItemName)
             .ifPresentOrElse(
-                item -> shoppingItemRepository.deleteByName(shoppingItemName),
+                existingItem -> shoppingItemRepository.delete(existingItem),
                 () -> { throw new ResponseStatusException(HttpStatus.NOT_FOUND); }
             );
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();

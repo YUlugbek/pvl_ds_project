@@ -20,10 +20,10 @@ public class ShoppingItem {
     private int amount;
 
     public ShoppingItem(){}
-    // public ShoppingItem(String name, int amount) {
-    //     this.name = name;
-    //     this.amount = amount;
-    // }
+    public ShoppingItem(String name, int amount) {
+        this.name = name;
+        this.amount = amount;
+    }
 
     public String getName() {
         return name;
