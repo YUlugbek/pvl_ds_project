@@ -12,6 +12,21 @@ services:
     environment:
       SPRING_BOOT_API_URL: http://backendspringboot:8080/api/shoppingItems
     depends_on:
+      - backendspringboot
+
+  frontendfastapi:
+    container_name: frontendfastapi
+    build: 
+      context: ../client_side_python/python_fastapi
+      dockerfile: Dockerfile
+    image: frontendfastapi
+    networks:
+      - shopnet
+    ports:
+      - "8000:8000"
+    environment:
+      SPRING_BOOT_API_URL: http://backendspringboot:8080/api/shoppingItems
+    depends_on:
       - backendspringboot  
 
   backendspringboot:

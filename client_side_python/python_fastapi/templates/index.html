@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Shopping List</title>
+</head>
+<body>
+    <h1>Shopping List</h1>
+    <a href="/add">Add New Item</a>
+    <ul>
+        {% for item in items %}
+            <li>{{ item.name }} - {{ item.amount }}
+                <a href="/update/{{ item.name }}">Edit</a>
+                <a href="/delete/{{ item.name }}">Delete</a>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
