@@ -1,12 +1,12 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 import requests
+import os
 
 app = Flask(__name__)
-
 app.secret_key = 'your_secret_key'  # For flash messages
 
-# Base URL for the Spring Boot API
-SPRING_BOOT_API_URL = "http://localhost:8080/api/shoppingItems"
+# Read the environment variable
+SPRING_BOOT_API_URL = os.getenv("SPRING_BOOT_API_URL")  # Default value if not set "http://localhost:8080/api/shoppingItems"
 
 # Home Page: Display all shopping items
 @app.route('/')
@@ -26,6 +26,7 @@ def add_item():
         name = request.form['name']
         amount = request.form['amount']
         payload = {"name": name, "amount": int(amount)}
+
         response = requests.post(SPRING_BOOT_API_URL, json=payload)
         if response.status_code == 201:
             flash("Item added successfully!", "success")
@@ -43,6 +44,7 @@ def update_item(name):
     if request.method == 'POST':
         amount = request.form['amount']
         payload = {"name": name, "amount": int(amount)}
+
         response = requests.put(f"{SPRING_BOOT_API_URL}/{name}", json=payload)
         if response.status_code == 200:
             flash("Item updated successfully!", "success")

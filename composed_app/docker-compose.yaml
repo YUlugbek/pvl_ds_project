@@ -1,0 +1,53 @@
+services:
+  frontendflask:
+    container_name: frontendflask
+    build: 
+      context: ../client_side_python/python_flask
+      dockerfile: Dockerfile
+    image: frontendflask
+    networks:
+      - shopnet
+    ports:
+      - "5000:5000"
+    environment:
+      SPRING_BOOT_API_URL: http://backendspringboot:8080/api/shoppingItems
+    depends_on:
+      - backendspringboot  
+
+  backendspringboot:
+    container_name: backendspringboot
+    build: 
+      context: ../server_side_springboot/christmas_wish_list
+      dockerfile: Dockerfile
+    image: backendspringboot
+    networks:
+      - shopnet
+    ports:
+      - "8080:8080"
+    depends_on:
+      - dbpostgres
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://dbpostgres:5432/shoppingdb
+      SPRING_DATASOURCE_USERNAME: yourusername
+      SPRING_DATASOURCE_PASSWORD: yourpassword
+
+  dbpostgres:
+    container_name: dbpostgres
+    image: postgres
+    networks:
+      - shopnet
+    environment:
+      POSTGRES_USER: yourusername
+      POSTGRES_PASSWORD: yourpassword
+      POSTGRES_DB: shoppingdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+volumes:
+  postgres-data:
+
+networks:
+  shopnet:
+    name: shopnet
