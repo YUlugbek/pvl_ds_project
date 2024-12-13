@@ -1,25 +1,25 @@
 services:
-  frontendflutter:
-    container_name: frontendflutter
-    build: 
-      context: ../client_side_flutter
-      dockerfile: Dockerfile
-    image: frontendflutter
-    networks:
-      - shopnet
-    ports:
-      - "8081:8081"
-    environment:
-      SPRING_BOOT_API_URL: http://backendspringboot:8080/api/shoppingItems
-    depends_on:
-      - backendspringboot
+  # frontendflutter:
+  #   container_name: frontendflutter
+  #   build: 
+  #     context: ../client_side_flutter
+  #     dockerfile: Dockerfile
+  #   image: frontendflutter
+  #   networks:
+  #     - shopnet
+  #   ports:
+  #     - "8081:8081"
+  #   environment:
+  #     SPRING_BOOT_API_URL: http://backendspringboot:8080/api/shoppingItems
+  #   depends_on:
+  #     - backendspringboot
 
   frontendflask:
     container_name: frontendflask
-    build: 
-      context: ../client_side_python/python_flask
-      dockerfile: Dockerfile
-    image: frontendflask
+    # build: 
+    #   context: ../client_side_python/python_flask
+    #   dockerfile: Dockerfile
+    image: yaulugbek/frontendflask:latest
     networks:
       - shopnet
     ports:
@@ -31,10 +31,10 @@ services:
 
   frontendfastapi:
     container_name: frontendfastapi
-    build: 
-      context: ../client_side_python/python_fastapi
-      dockerfile: Dockerfile
-    image: frontendfastapi
+    # build: 
+    #   context: ../client_side_python/python_fastapi
+    #   dockerfile: Dockerfile
+    image: yaulugbek/frontendfastapi:latest
     networks:
       - shopnet
     ports:
@@ -46,10 +46,10 @@ services:
 
   backendspringboot:
     container_name: backendspringboot
-    build: 
-      context: ../server_side_springboot/christmas_wish_list
-      dockerfile: Dockerfile
-    image: backendspringboot
+    # build: 
+    #   context: ../server_side_springboot/christmas_wish_list
+    #   dockerfile: Dockerfile
+    image: yaulugbek/backendspringboot:latest
     networks:
       - shopnet
     ports:
@@ -63,7 +63,7 @@ services:
 
   dbpostgres:
     container_name: dbpostgres
-    image: postgres
+    image: yaulugbek/postgres:latest
     networks:
       - shopnet
     environment:
