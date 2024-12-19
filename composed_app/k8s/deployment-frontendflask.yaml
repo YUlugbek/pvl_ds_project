@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontendflask
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontendflask
+  template:
+    metadata:
+      labels:
+        app: frontendflask
+    spec:
+      containers:
+        - name: frontendflask
+          image: yaulugbek/frontendflask:latest
+          ports:
+            - containerPort: 5000
+          env:
+            - name: SPRING_BOOT_API_URL
+              value: "http://backendspringboot:8080/api/shoppingItems"

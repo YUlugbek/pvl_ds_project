@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: dbpostgres
+  name: dbpostgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dbpostgres
+  template:
+    metadata:
+      labels:
+        app: dbpostgres
+    spec:
+      containers:
+        - name: dbpostgres
+          image: yaulugbek/postgres:latest
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_USER
+              value: "yourusername"
+            - name: POSTGRES_PASSWORD
+              value: "yourpassword"
+            - name: POSTGRES_DB
+              value: "shoppingdb"
